@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+var commander = require('commander'),
+    linkv     = require(__dirname + '/../index'),
+    pkj       = require(__dirname + '/../package.json');
+
+commander
+  .version(pkj.version)
+  .option('-h, --html', 'as html format')
+  .parse(process.argv);
+
+var url = commander.args.shift();
+if (!url) {
+	console.error(err);
+	process.exit(1);
+}
+
+linkv(url, function (err, result) {
+	if (err) {
+		console.error(err);
+		process.exit(1);
+	}
+
+	console.log(result);
+});
