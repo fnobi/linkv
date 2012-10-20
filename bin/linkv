@@ -1,25 +1,51 @@
 #!/usr/bin/env node
 
-var commander = require('commander'),
-    linkv     = require(__dirname + '/../index'),
-    pkj       = require(__dirname + '/../package.json');
+var child_process = require('child_process'),
+    async         = require('async'),
+    commander     = require('commander'),
+    linkv         = require(__dirname + '/../index'),
+    pkj           = require(__dirname + '/../package.json');
 
 commander
   .version(pkj.version)
-  .option('-h, --html', 'as html format')
+  .option('-v, --clipbord', 'use url from clipboard (mac only)')
+  .option('-c, --copy', 'copy to clipboard (mac only)')
   .parse(process.argv);
 
-var url = commander.args.shift();
-if (!url) {
-	console.error(err);
+if (!commander.args.length) {
+	console.error('please enter a url.');
 	process.exit(1);
 }
 
-linkv(url, function (err, result) {
-	if (err) {
-		console.error(err);
-		process.exit(1);
+var clipboard = [];
+
+async.forEach(commander.args, function (url, callback) {
+	linkv(url, function (err, result) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+
+		console.log(result);
+		if (commander.copy) {
+			clipboard.push(result);
+		}
+		callback();
+	});
+}, function () {
+	if (!commander.copy) {
+		return;
 	}
 
-	console.log(result);
+	child_process.exec(
+		'echo "' + clipboard.join('\n') + '" | pbcopy',
+		function (err, res) {
+			if (err) {
+				console.error(err);
+				process.exit(1);
+			}
+			console.log('copied to clipboard.');
+		}
+	);
 });
+
