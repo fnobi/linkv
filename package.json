@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"bin": "bin/linkv",
 	"dependencies": {
+		"async": "0.1.22",
 		"commander": "1.0.5",
 		"request": "2.11.4",
 		"cheerio": "0.10.1",
