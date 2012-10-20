@@ -13,7 +13,7 @@ var linkv = function (url, callback) {
 		var title = getTitle(body);
 
 		var contents = [
-			'[' + title + ']',
+			title,
 			' - ' + url
 		].join('\n');
 
