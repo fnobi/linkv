@@ -7,9 +7,9 @@ var child_process = require('child_process'),
     pkj           = require(__dirname + '/../package.json');
 
 commander
-  .version(pkj.version)
-  .option('-c, --copy', 'copy to clipboard (mac only)')
-  .parse(process.argv);
+	.version(pkj.version)
+	.option('-c, --copy', 'copy to clipboard (mac only)')
+	.parse(process.argv);
 
 if (!commander.args.length) {
 	console.error('please enter a url.');

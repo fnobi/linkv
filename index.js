@@ -24,7 +24,7 @@ var linkv = function (url, callback) {
 var getTitle = function (html) {
 	var dom = cheerio.parse(html);
 	var filteredDom = cheerio.select('title', dom);
-	return filteredDom[0].children[0].data;
+	return filteredDom[0].children[0].data.replce(/\n/g,'');
 };
 
 module.exports = linkv;
