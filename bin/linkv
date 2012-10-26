@@ -10,6 +10,7 @@ commander
   .version(pkj.version)
   .option('-v, --clipbord', 'use url from clipboard (mac only)')
   .option('-c, --copy', 'copy to clipboard (mac only)')
+  .option('-t, --html', 'output link as html')
   .parse(process.argv);
 
 var urls = commander.args;
@@ -20,8 +21,13 @@ if (!urls.length) {
 	process.exit(1);
 }
 
-async.forEach(urls, function (url, callback) {
-	linkv(url, function (err, result) {
+var type = null;
+if (commander.html) {
+	type = 'html';
+}
+
+async.forEach(commander.args, function (url, callback) {
+	linkv(url, type, function (err, result) {
 		if (err) {
 			console.error(err);
 			process.exit(1);
@@ -49,4 +55,3 @@ async.forEach(urls, function (url, callback) {
 		}
 	);
 });
-
