@@ -9,6 +9,7 @@ var child_process = require('child_process'),
 commander
 	.version(pkj.version)
 	.option('-c, --copy', 'copy to clipboard (mac only)')
+	.option('-t, --html', 'output link as html')
 	.parse(process.argv);
 
 if (!commander.args.length) {
@@ -16,10 +17,15 @@ if (!commander.args.length) {
 	process.exit(1);
 }
 
+var type = null;
+if (commander.html) {
+	type = 'html';
+}
+
 var clipboard = [];
 
 async.forEach(commander.args, function (url, callback) {
-	linkv(url, function (err, result) {
+	linkv(url, type, function (err, result) {
 		if (err) {
 			console.error(err);
 			process.exit(1);
