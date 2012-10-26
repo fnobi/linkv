@@ -1,12 +1,29 @@
 {
-	"name": "linkv",
-	"version": "0.0.1",
-	"bin": "bin/linkv",
-	"dependencies": {
-		"async": "0.1.22",
-		"commander": "1.0.5",
-		"request": "2.11.4",
-		"cheerio": "0.10.1",
-		"cheerio-select": "0.0.3"
-	}
+  "name": "linkv",
+  "version": "0.0.1",
+  "bin": {
+    "linkv": "bin/linkv"
+  },
+  "dependencies": {
+    "async": "0.1.22",
+    "commander": "1.0.5",
+    "request": "2.11.4",
+    "cheerio": "0.10.1",
+    "cheerio-select": "0.0.3"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "author": "Fujisawa Shin <shin@fnobi.com>",
+  "description": "formatting url and copy to clipboard.",
+  "homepage": "http://github.com/fnobi/linkv",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fnobi/linkv.git"
+  },
+  "scripts": {
+    "test": "buster test"
+  }
 }
