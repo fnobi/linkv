@@ -19,6 +19,8 @@ var linkv = function (url, type, callback) {
 				'%s - <a href="%s">%s</a>',
 				title, url, url
 			);
+		} else if (type == 'markdown') {
+			contents = util.format('[%s](%s)', title, url);
 		} else {
 			contents = util.format(
 				'%s\n - %s',

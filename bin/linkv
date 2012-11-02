@@ -11,6 +11,7 @@ commander
   .option('-v, --clipbord', 'use url from clipboard (mac only)')
   .option('-c, --copy', 'copy to clipboard (mac only)')
   .option('-t, --html', 'output link as html')
+  .option('-m, --markdown', 'output link as markdown')
   .parse(process.argv);
 
 var urls = commander.args;
@@ -24,6 +25,8 @@ if (!urls.length) {
 var type = null;
 if (commander.html) {
 	type = 'html';
+} else if (commander.markdown) {
+	type = 'markdown';
 }
 
 async.forEach(commander.args, function (url, callback) {
