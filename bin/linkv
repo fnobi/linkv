@@ -47,8 +47,12 @@ async.forEach(commander.args, function (url, callback) {
 		return;
 	}
 
+	var cbtext = clipboard
+		.join('\n')
+		.replace(/"/g, '\\"');
+
 	child_process.exec(
-		'echo "' + clipboard.join('\n') + '" | pbcopy',
+		'echo "' + cbtext + '" | pbcopy',
 		function (err, res) {
 			if (err) {
 				console.error(err);
