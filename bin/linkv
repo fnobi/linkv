@@ -4,7 +4,8 @@ var child_process = require('child_process'),
     async         = require('async'),
     commander     = require('commander'),
     linkv         = require(__dirname + '/../index'),
-    pkj           = require(__dirname + '/../package.json');
+    pkj           = require(__dirname + '/../package.json'),
+    clipboard     = require(__dirname + '/../lib/macclipboard');
 
 commander
   .version(pkj.version)
@@ -15,7 +16,7 @@ commander
   .parse(process.argv);
 
 var urls = commander.args;
-var clipboard = [];
+var results = [];
 
 if (!urls.length) {
 	console.error('please enter a url.');
@@ -38,7 +39,7 @@ async.forEach(commander.args, function (url, callback) {
 
 		console.log(result);
 		if (commander.copy) {
-			clipboard.push(result);
+			results.push(result);
 		}
 		callback();
 	});
@@ -47,18 +48,11 @@ async.forEach(commander.args, function (url, callback) {
 		return;
 	}
 
-	var cbtext = clipboard
-		.join('\n')
-		.replace(/"/g, '\\"');
-
-	child_process.exec(
-		'echo "' + cbtext + '" | pbcopy',
-		function (err, res) {
-			if (err) {
-				console.error(err);
-				process.exit(1);
-			}
-			console.log('copied to clipboard.');
+	clipboard.write(results.join('\n'), function (err, res) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
 		}
-	);
+		console.log('copied to clipboard.');
+	});
 });
