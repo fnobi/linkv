@@ -1,41 +1,48 @@
-var request = require('request'),
+var sqraper = require('sqraper'),
     util    = require('util');
-var cheerio = {
-    select  : require('cheerio-select'),
-    parse   : require('cheerio')
-};
 
 var linkv = function (url, type, callback) {
-	request.get(url, function (err, res, body) {
+	requestTitle(url, function (err, title) {
 		if (err) {
-			return callback(err);
+			return callback(err, null);
 		}
 
-		var title = getTitle(body);
+		return callback(null, formatLink(url, title, type));
+	});
 
-		var contents;
-		if (type == 'html') {
-			contents = util.format(
-				'%s - <a href="%s">%s</a>',
-				title, url, url
-			);
-		} else if (type == 'markdown') {
-			contents = util.format('[%s](%s)', title, url);
-		} else {
-			contents = util.format(
-				'%s\n - %s',
-				title, url
-			);
+};
+
+var requestTitle = function (url, callback) {
+	sqraper(url, function (err, jQuery) {
+		if (err) {
+			return callback(err, null);
 		}
 
-		return callback(null, contents);
+		return callback(null, findTitle(jQuery));
 	});
 };
 
-var getTitle = function (html) {
-	var dom = cheerio.parse(html);
-	var filteredDom = cheerio.select('title', dom);
-	return filteredDom[0].children[0].data.replace(/\n/g,'');
+var findTitle = function ($) {
+	return $('title').text().trim();
+};
+
+var formatLink = function (url, title, type) {
+	var contents;
+	if (type == 'html') {
+		contents = util.format(
+			'%s - <a href="%s">%s</a>',
+			title, url, url
+		);
+	} else if (type == 'markdown') {
+		contents = util.format('[%s](%s)', title, url);
+	} else {
+		contents = util.format(
+			'%s\n - %s',
+			title, url
+		);
+	}
+
+	return contents;
 };
 
 module.exports = linkv;

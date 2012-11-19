@@ -8,9 +8,7 @@
     "async": "0.1.22",
     "clipboard": "0.1.1",
     "commander": "1.0.5",
-    "request": "2.11.4",
-    "cheerio": "0.10.1",
-    "cheerio-select": "0.0.3"
+    "sqraper": "0.0.7"
   },
   "devDependencies": {},
   "optionalDependencies": {},
