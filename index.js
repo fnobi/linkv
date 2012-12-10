@@ -9,7 +9,6 @@ var linkv = function (url, type, callback) {
 
 		return callback(null, formatLink(url, title, type));
 	});
-
 };
 
 var requestTitle = function (url, callback) {
@@ -23,7 +22,7 @@ var requestTitle = function (url, callback) {
 };
 
 var findTitle = function ($) {
-	return $('title').text().trim();
+	return $('title').text().replace(/\n/g, '');
 };
 
 var formatLink = function (url, title, type) {
