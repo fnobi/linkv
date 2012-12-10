@@ -13,6 +13,7 @@ commander
   .option('-c, --copy', 'copy to clipboard (mac only)')
   .option('-t, --html', 'output link as html')
   .option('-m, --markdown', 'output link as markdown')
+  .option('-j, --jade', 'output link as jade(html)')
   .parse(process.argv);
 
 var urls = commander.args;
@@ -28,6 +29,8 @@ if (commander.html) {
 	type = 'html';
 } else if (commander.markdown) {
 	type = 'markdown';
+} else if (commander.jade) {
+	type = 'jade';
 }
 
 async.forEach(commander.args, function (url, callback) {

@@ -35,6 +35,8 @@ var formatLink = function (url, title, type) {
 		);
 	} else if (type == 'markdown') {
 		contents = util.format('[%s](%s)', title, url);
+	} else if (type == 'jade') {
+		contents = util.format('a(href="%s") %s', url, title);
 	} else {
 		contents = util.format(
 			'%s\n - %s',
